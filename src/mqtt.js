@@ -9,6 +9,8 @@ export default class IWS_MQTT {
    * @param {string} host the hostname of the MQTT broker.
    * @param {int} port the port of the MQTT broker.
    */
+    
+// Create and initializes an object instance of a class. Check Paho js MQTT documentation to see required params.  
   constructor(host, port) {
     this.host = host
     this.port = port
@@ -19,12 +21,12 @@ export default class IWS_MQTT {
     this.onMessage = null
     this.subbedTopics = []
   }
-
+// Change conection status property of object in case of successful connection.
   _defaultConnect() {
     this.connected = true
     console.log('Connected!')
   }
-
+// Connect this Messaging client to its server.
   connect(callbackFn = null) {
     console.log(`Connecting to ws://${this.host}:${this.port}`);
     let successCallbackFn = this._defaultConnect
@@ -40,7 +42,7 @@ export default class IWS_MQTT {
     }
     this.client.connect(options)
   }
-
+// Subscribe for messages.
   sub(topic, qos = 0, callbackFn = null) {
     this.client.subscribe(topic, { qos: qos })
     this.subbedTopics.push(topic)
@@ -48,7 +50,7 @@ export default class IWS_MQTT {
       this.callbackMap.set(topic, callbackFn)
     }
   }
-
+// Add subbscribed topic in callback Map
   addSubCallback(topic, callbackFn) {
     if (this.subbedTopics.indexOf(topic) != -1) {
       this.callbackMap.set(topic, callbackFn)
@@ -58,7 +60,25 @@ export default class IWS_MQTT {
       because it does not exist.`)
     }
   }
-
+// Unsubscribe for messages.
+ unsub(topic, callbackFn = null){
+     this.client.unsubscribe(topic)
+     this.subbedTopics.remove(topic)
+     if(callbackFn){
+         this.callbackMap.delete(topic)
+     }
+ } 
+// Remove unsubbscribed topic in callback Map  
+ removeSubCallback(topic, callbackFn) {
+    if (this.subbedTopics.indexOf(topic) != -1) {
+      this.callbackMap.delete(topic, callbackFn)
+    } else {
+      console.log(`Callback cannot be deleted:
+      '${topic}'
+      because it does not exist.`)
+    }
+ }    
+// Publish a message to the consumers of the destination in the Message.
   pub(topic, payload, qos = 0, retain = false) {
     if (this.connected) {
       this.client.publish(topic, payload, qos, retain)
@@ -68,7 +88,7 @@ export default class IWS_MQTT {
       payload: ${payload}`)
     }
   }
-
+// Handle arrived message and check if it exists in callback map
   handleMessage(message) {
     try {
       const callbackFn = this.callbackMap.get(message.destinationName)
@@ -81,4 +101,4 @@ export default class IWS_MQTT {
       console.log(`Handler for topic ${message.destinationName} failed. Error: `, e)
     }
   }
-}
+}   
