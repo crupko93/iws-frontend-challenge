@@ -69,8 +69,9 @@ export default {
           this.styleObj.output = {}
       }
         
-// conversion from a physical (Pv) value to a curent (I) value. Source of formula: https://www.divize.com/techinfo/4-20ma-calculator.html     
-      this.engActual = ((((this.engHigh - this.engLow) / (this.rawHigh - this.rawLow)) * (this.rawActual - this.rawLow)) + this.engLow).toFixed(2);
+// conversion from a physical (Pv) value to a curent (I) value. Source of formula: https://www.divize.com/techinfo/4-20ma-calculator.html 
+      let output = (((this.engHigh - this.engLow) / (this.rawHigh - this.rawLow)) * (this.rawActual - this.rawLow)) + this.engLow ;
+      this.engActual = parseFloat(output).toFixed(2);
       
 //      console.log(`Foo - topic: ${topic} payload: ${payload}`);
 //      this.msg = payload;
