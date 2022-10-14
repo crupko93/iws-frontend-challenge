@@ -20,6 +20,8 @@
         <br><br>
         <label for="oscSpeed">Oscillation speed : </label>
         <input type="range" id="oscSpeed" v-model="oscSpeed" min="0.01" max="9999" step="0.01"> <b>{{ oscSpeed }}</b>
+        <br><br>
+        <button type="button" @click="resetToDef()">RESET</button>
     </form>
   </div>
 </template>
@@ -76,6 +78,17 @@ export default {
 //      console.log(`Foo - topic: ${topic} payload: ${payload}`);
 //      this.msg = payload;
     },
+    resetToDef(){
+        this.rawActual = 0 // Received raw sensor value, mA
+        this.rawLow = 4 // Minimum sensor reading, mA
+        this.rawHigh = 20 // Maximum sensor readin, mA
+        this.engActual = 0 // Current thermometer reading, deg C
+        this.engLow = -70 // Minimum temperature of thermometer, deg C
+        this.engHigh = 70 // Maximum temperature of thermometer, deg C
+        this.oscSpeed = 1000 // Oscilation speed
+        this.styleObj.input = {}
+        this.styleObj.output = {}
+    }
   },
 };
 </script>
