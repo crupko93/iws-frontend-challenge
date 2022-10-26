@@ -2,7 +2,6 @@
   <div id="app">
     <RawPublisher />
     <HelloWorld />
-    <Game />
   </div>
 </template>
 
