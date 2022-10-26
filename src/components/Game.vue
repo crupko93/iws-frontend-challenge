@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="Game">
     <div class="status">{{ status }}</div>
     <button @click="setByDef()">Reset</button>
     <template v-for="(row, i) in board">
@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    name: "App",
+    name: "Game",
     data() {
       return {
         status: 'Next player: X',
