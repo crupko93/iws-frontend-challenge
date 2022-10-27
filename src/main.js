@@ -7,7 +7,7 @@ import IWS_MQTT from "./mqtt"
 const store  = createStore({
     /* your code here */
     state: {
-        oscSpeed: 0
+        oscSpeed: 1000
     }
 });
 
