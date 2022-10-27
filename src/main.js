@@ -1,10 +1,19 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import App from "./App.vue";
 import IWS_MQTT from "./mqtt"
 
+
+const store  = createStore({
+    /* your code here */
+    state: {
+        oscSpeed: 0
+    }
+});
+
 Vue.config.productionTip = false;
 new Vue({
+  store,    
   render: function (h) {
     return h(App);
   },
